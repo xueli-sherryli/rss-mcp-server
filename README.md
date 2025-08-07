@@ -15,11 +15,12 @@ This project and its documentation were created by Gemini with human review, bas
 ### Using `uv`
 
 1.  **Create and configure the environment file:**
+    
     ```bash
     cp .env.example .env
     ```
     Then, edit the `.env` file with your credentials.
-
+    
 2.  **Sync dependencies:**
     ```bash
     uv sync
@@ -32,13 +33,23 @@ This project and its documentation were created by Gemini with human review, bas
 
 ### Using `docker`
 
-1.  **Configure `docker-compose.yml`:**
-    If needed, modify the port mapping in `docker-compose.yml` to avoid conflicts.
+1. **Configure `docker-compose.yml`:**
+   If needed, modify the port mapping in `docker-compose.yml` to avoid conflicts.
 
-2.  **Build and run the container:**
-    ```bash
-    docker-compose up -d
-    ```
+
+2. **Create and configure the environment file:**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   Then, edit the `.env` file with your credentials.
+
+3. **Build and run the container:**
+
+   ```bash
+   docker-compose up -d
+   ```
 
 ## Configuration
 
@@ -76,11 +87,12 @@ This MCP is designed to be compatible with any RSS reader that supports the Fres
 ### 使用 `uv`
 
 1.  **创建并配置环境文件:**
+    
     ```bash
     cp .env.example .env
     ```
     然后，编辑 `.env` 文件并填入您的凭据。
-
+    
 2.  **同步依赖:**
     ```bash
     uv sync
@@ -93,13 +105,22 @@ This MCP is designed to be compatible with any RSS reader that supports the Fres
 
 ### 使用 `docker`
 
-1.  **配置 `docker-compose.yml`:**
-    如果需要，请修改 `docker-compose.yml` 中的端口映射以避免冲突。
+1. **配置 `docker-compose.yml`:**
+   如果需要，请修改 `docker-compose.yml` 中的端口映射以避免冲突。
 
-2.  **构建并运行容器:**
-    ```bash
-    docker-compose up -d
-    ```
+2. **创建并配置环境文件:**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+   然后，编辑 `.env` 文件并填入您的凭据。
+
+3. **构建并运行容器:**
+
+   ```bash
+   docker-compose up -d
+   ```
 
 ## 配置
 

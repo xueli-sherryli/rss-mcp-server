@@ -1,6 +1,6 @@
 # RSS MCP Server
 
-This project is an MCP (Model-View-Controller) server for RSS services that support the FreshRSS API. This server allows you to interact with your RSS reader through a standardized API.
+This project is an MCP ( Model Context Protocol ) server for RSS services that support the FreshRSS API. This server allows you to interact with your RSS reader through LLM.
 
 This project and its documentation were created by Gemini with human review, based on the original documentation at [https://xueli-sherryli.github.io/friendlier-fresh-rss-api-doc/](https://xueli-sherryli.github.io/friendlier-fresh-rss-api-doc/).
 
@@ -73,7 +73,7 @@ This MCP is designed to be compatible with any RSS reader that supports the Fres
 
 # RSS MCP 服务器
 
-本项目是一个适用于支持 FreshRSS API 的 RSS 服务的 MCP (Model-View-Controller) 服务器。该服务器允许您通过标准化的 API 与您的 RSS 阅读器进行交互。
+本项目是一个适用于支持 FreshRSS API 的 RSS 服务的 MCP ( Model Context Protocol ) 服务器。该服务器允许您通过LLM与您的 RSS 阅读器进行交互。
 
 本项目及其文档由 Gemini 在人工审阅下创建，基于原始文档 [https://xueli-sherryli.github.io/friendlier-fresh-rss-api-doc/](https://xueli-sherryli.github.io/friendlier-fresh-rss-api-doc/)。
 

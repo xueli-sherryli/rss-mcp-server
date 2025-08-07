@@ -1,0 +1,14 @@
+[project]
+name = "rss-mcp-server"
+version = "0.1.0"
+description = "An MCP server to interact with a Google Reader compatible API (like FreshRSS)."
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp",
+    "requests",
+    "python-dotenv",
+    "uvicorn"
+]
+
+[tool.uv]
+# This section is for uv-specific configurations, but not required for basic usage.

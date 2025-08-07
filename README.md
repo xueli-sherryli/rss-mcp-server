@@ -48,7 +48,8 @@ This project and its documentation were created by Gemini with human review, bas
 3. **Build and run the container:**
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
+   # or docker-compose up -d
    ```
 
 ## Configuration
@@ -119,7 +120,8 @@ This MCP is designed to be compatible with any RSS reader that supports the Fres
 3. **构建并运行容器:**
 
    ```bash
-   docker-compose up -d
+   docker compose up -d
+   # or docker-compose up -d
    ```
 
 ## 配置

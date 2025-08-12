@@ -3,7 +3,7 @@ import requests
 import logging
 from dotenv import load_dotenv
 from fastmcp import FastMCP
-from typing import Optional, List
+from typing import Optional, List, Union
 import xml.etree.ElementTree as ET
 import html
 import json
@@ -211,23 +211,31 @@ async def delete_subscription(feed_ids: List[str]):
     return client.make_request("POST", "subscription/edit", data=data)
 
 @mcp.tool()
-async def mark_feed_as_read(feed_url: str, timestamp: int):
+async def mark_feed_as_read(feed_url: str, timestamp: Union[int, str]):
     """
     Marks all items in a specific feed as read.
     :param feed_url: The URL of the feed to mark as read.
     :param timestamp: Timestamp to mark read time.
     """
+    try:
+        timestamp = int(timestamp)
+    except (ValueError, TypeError):
+        raise ValueError("Timestamp must be a valid integer.")
     data = {'s': f'feed/{feed_url}', 'ts': timestamp}
     return client.make_request("POST", "mark-all-as-read", data=data)
 
 
 @mcp.tool()
-async def mark_folder_as_read(folder_name: str, timestamp: int):
+async def mark_folder_as_read(folder_name: str, timestamp: Union[int, str]):
     """
     Marks all items in a specific folder as read.
     :param folder_name: The name of the folder to mark as read.
     :param timestamp: Timestamp to mark read time.
     """
+    try:
+        timestamp = int(timestamp)
+    except (ValueError, TypeError):
+        raise ValueError("Timestamp must be a valid integer.")
     data = {'t': folder_name, 'ts': timestamp}
     return client.make_request("POST", "mark-all-as-read", data=data)
 
@@ -454,10 +462,10 @@ async def set_tag_sharing(tag_name: str, is_public: bool):
 
 @mcp.tool()
 async def get_all_entries(
-    count: int = 20,
+    count: Union[int, str] = 20,
     sort_order: Optional[str] = None,
-    newer_than: Optional[int] = None,
-    older_than: Optional[int] = None,
+    newer_than: Optional[Union[int, str]] = None,
+    older_than: Optional[Union[int, str]] = None,
     exclude_target: Optional[str] = None,
     continuation: Optional[str] = None,
     output_format: str = "json"
@@ -472,6 +480,14 @@ async def get_all_entries(
     :param continuation: Continuation string for pagination.
     :param output_format: The desired output format (json or xml).
     """
+    try:
+        count = int(count)
+        if newer_than is not None:
+            newer_than = int(newer_than)
+        if older_than is not None:
+            older_than = int(older_than)
+    except (ValueError, TypeError):
+        raise ValueError("count, newer_than, and older_than must be valid integers.")
     endpoint = "stream/contents/user/-/state/com.google/reading-list"
     params = {'output': output_format, 'n': count}
     if sort_order:
@@ -500,25 +516,33 @@ async def get_preference_list():
 
 
 @mcp.tool()
-async def get_starred_articles(count: int = 20, output_format: str = "json"):
+async def get_starred_articles(count: Union[int, str] = 20, output_format: str = "json"):
     """
     Retrieves a list of starred articles.
     :param count: The maximum number of starred articles to retrieve (max 1000).
     :param output_format: The desired output format (json or xml).
     """
+    try:
+        count = int(count)
+    except (ValueError, TypeError):
+        raise ValueError("count must be a valid integer.")
     endpoint = "stream/contents/user/-/state/com.google/starred"
     params = {'n': count, 'output': output_format}
     return client.make_request("GET", endpoint, params=params)
 
 
 @mcp.tool()
-async def parse_feed_url(feed_url: str, count: int = 20, exclude_target: Optional[str] = None):
+async def parse_feed_url(feed_url: str, count: Union[int, str] = 20, exclude_target: Optional[str] = None):
     """
     Parses a feed URL to retrieve its entries.
     :param feed_url: The URL of the feed to parse.
     :param count: Number of entries to load.
     :param exclude_target: Label to exclude from the results.
     """
+    try:
+        count = int(count)
+    except (ValueError, TypeError):
+        raise ValueError("count must be a valid integer.")
     # For this special case, we construct the full URL manually to avoid issues with
     # the requests library parsing a URL within the path.
     base = client.base_url.rstrip('/')
@@ -534,12 +558,12 @@ async def parse_feed_url(feed_url: str, count: int = 20, exclude_target: Optiona
 @mcp.tool()
 async def freshapi_get_stream_item_ids(
     stream_id: str,
-    count: int = 20,
+    count: Union[int, str] = 20,
     sort_order: Optional[str] = None,
     continuation: Optional[str] = None,
     exclude_target: Optional[str] = None,
-    start_time: Optional[int] = None,
-    stop_time: Optional[int] = None,
+    start_time: Optional[Union[int, str]] = None,
+    stop_time: Optional[Union[int, str]] = None,
     filter_target: Optional[str] = None
 ):
     """
@@ -553,6 +577,14 @@ async def freshapi_get_stream_item_ids(
     :param stop_time: The time until which you want to retrieve items (Unix timestamp).
     :param filter_target: Label to include in the results.
     """
+    try:
+        count = int(count)
+        if start_time is not None:
+            start_time = int(start_time)
+        if stop_time is not None:
+            stop_time = int(stop_time)
+    except (ValueError, TypeError):
+        raise ValueError("count, start_time, and stop_time must be valid integers.")
     endpoint = "stream/items/ids"
     params = {'s': stream_id, 'n': count}
     if sort_order:
@@ -582,11 +614,15 @@ async def freshapi_get_stream_item_contents(item_ids: List[str]):
 
 
 @mcp.tool()
-async def get_shared_entries(count: int = 20):
+async def get_shared_entries(count: Union[int, str] = 20):
     """
     Retrieves the user's shared entries.
     :param count: The number of shared articles to retrieve.
     """
+    try:
+        count = int(count)
+    except (ValueError, TypeError):
+        raise ValueError("count must be a valid integer.")
     endpoint = "reader/atom/user/-/state/com.google/broadcast"
     params = {'n': count}
     return client.make_request("GET", endpoint, params=params)

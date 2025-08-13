@@ -116,26 +116,29 @@ class GoogleReaderClient:
                     return unescaped_text
             return unescaped_text
         except requests.exceptions.RequestException as e:
-            if e.response is not None and e.response.headers.get('X-Reader-Google-Bad-Token') == 'true':
-                logging.warning("Token expired. Re-authenticating.")
+            if e.response is not None and (e.response.status_code == 401 or e.response.headers.get('X-Reader-Google-Bad-Token') == 'true'):
+                logging.warning("Token expired or invalid (401). Re-authenticating and retrying.")
                 self._get_token()
                 params['T'] = self.token
                 kwargs["params"] = params
+                
+                # Retry the request
                 response = requests.request(method, url, **kwargs)
                 response.raise_for_status()
+                
                 unescaped_text = html.unescape(response.text)
                 content_type = response.headers.get('Content-Type', '')
                 if 'json' in content_type:
                     try:
                         return json.loads(unescaped_text)
                     except json.JSONDecodeError as je:
-                        logging.error(f"Failed to parse JSON response after unescaping: {je}")
+                        logging.error(f"Failed to parse JSON response after unescaping on retry: {je}")
                         return unescaped_text
                 elif 'xml' in content_type:
                     try:
                         return ET.fromstring(unescaped_text.encode('utf-8'))
                     except ET.ParseError as pe:
-                        logging.error(f"Failed to parse XML response: {pe}")
+                        logging.error(f"Failed to parse XML response on retry: {pe}")
                         return unescaped_text
                 return unescaped_text
             
